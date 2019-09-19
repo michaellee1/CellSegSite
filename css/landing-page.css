@@ -4,6 +4,29 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
  */
 
+.full-size {
+  width:40%;
+  height:auto;
+}
+
+.semi-width {
+  width:75%;
+  margin:auto;
+}
+
+.logo-height {
+  height: 50px;
+  display: inline-block;
+}
+
+.center-logo {
+  margin:auto;
+}
+
+.block {
+  display: inline-block;
+}
+
 body {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -49,6 +72,36 @@ header.masthead h1 {
   header.masthead h1 {
     font-size: 3rem;
   }
+}
+.navbar {
+  min-height: 50px;
+}
+
+.navbar-brand {
+  padding: 0 15px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.navbar-toggle {
+  /* (80px - button height 34px) / 2 = 23px */
+  margin-top: 8px;
+  padding: 9px 10px !important;
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    /* (80px - line-height of 27px) / 2 = 26.5px */
+    padding-top: 11.5px;
+    padding-bottom: 11.5px;
+    line-height: 27px;
+  }
+}
+
+.navbar-brand img {
+  height: 100%;
+  width: auto;
+  margin-bottom: 5px;
 }
 
 .showcase .showcase-text {
