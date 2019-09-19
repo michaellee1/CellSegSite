@@ -1,6 +1,6 @@
 from PIL import Image
 
-img = Image.open('logo-sm.png')
+img = Image.open('logo-circ.png')
 img = img.convert("RGBA")
 datas = img.getdata()
 
