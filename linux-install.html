@@ -11,7 +11,11 @@
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="linux-install-tutorial">Linux Install Tutorial</h1>
 <p>CellVision has a one time package install using <code>conda</code>, a package manager bundled into miniconda.  Package install without program install is by design - see section for advanced users below.</p>
-<p>Download CellVision for Linux here, and extract into any directory of your choosing.  This tutorial does assume a very basic grasp of the terminal.</p>
+<p>
+  Download CellVision for Linux <a href="https://github.com/michaellee1/CellVisionSegmenter/archive/master.zip">here</a>, 
+  and extract into any directory of your choosing.  This tutorial does assume a very basic grasp of the terminal. For an 
+  introduction to using miniconda, please refer to the Anaconda documentation <a href="https://conda.io/projects/conda/en/latest/user-guide/index.html"> here</a>.
+</p>
 <h3 id="miniconda">Miniconda</h3>
 <ul>
 <li>Install miniconda if you don’t already have it, using the .sh file <a href="https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe">here</a>.</li>
@@ -28,30 +32,47 @@ $ conda install -f -y -q --name cellVision -c conda-forge --file requirements.tx
 <p>Note that the install may take a while!</p>
 <h1 id="running-cellvision-linux">Running CellVision (Linux)</h1>
 <h3 id="config-file">Config File</h3>
-<p>CellVision depends on a <code>cvconfig.py</code> file located in the directory where you downloaded CellVision.  You will change the parameters in this configuration file to tell CellVision where to segment your images.</p>
+<p>
+  CellVision depends on a <code>cvconfig.py</code> file located in the directory where you downloaded CellVision.  
+  The parameters in this configuration file specify all the information CellVision needs to segment your images including 
+  filepath to your images, desired output path, and other customizations. For 
+  beginner users, this is the only file you need to edit to run CellVision!
+</p>
 <h4 id="important-configuration-settings">Important configuration settings</h4>
-<p>DIRECTORY_PATH - directory that contains your .tif bestFocus images (usually the bestFocus folder)<br>
-CHANNEL_PATH - path to your channels file (usually called channelNames.txt)<br>
-NUCLEAR_CHANNEL_NAME - name of nuclear stain (corresponding to channelNames.txt). Case sensitive.<br>
-OUTPUT_METHOD - (imagej_text_file, statistics, visual_image_output, visual_overlay_output, all)<br>
-BOOST - multiplier with which to boost the pixels of the nuclear stain before inference</p>
+<p>
+  DIRECTORY_PATH - directory that contains your '.tif', '.jpg', or '.png' images (for CODEX images, this is usually the bestFocus folder)<br>
+  CHANNEL_PATH - path to your channels file (for CODEX images, this is called channelNames.txt)<br>
+  NUCLEAR_CHANNEL_NAME - name of nuclear stain channel (corresponding to channelNames.txt). Case sensitive.<br>
+  OUTPUT_METHOD - choice of data output from segmenter (imagej_text_file, statistics, visual_image_output, visual_overlay_output, all)<br>
+  BOOST - multiplier with which to boost the pixels of the nuclear stain before segmentation
+</p>
 <p>Other settings are documented within the configuration file itself.</p>
 <h4 id="modifying-the-configuration-file">Modifying the configuration file</h4>
-<p>You can modify this file in any text editor of your choice.  We will use VSCode for this tutorial.<br>
-(ADD IMAGE)<br>
-Change the parameters above to match the desired image directory, segmentation channel, boost, and output method desired.<br>
-(ADD IMAGE)</p>
+<p>
+  You can modify this file in any text editor of your choice.  We will use VSCode for this tutorial.<br>
+  TUTORIAL COMING SOON! <br>
+  Change the parameters above to match the desired image directory, segmentation channel, boost, and output method desired.<br>
+  TUTORIAL COMING SOON! 
+</p>
 <h3 id="running-cellvision">Running CellVision</h3>
 <p>Now that the config file has been set, we can easily run CellVision.<br>
 From the CellVision folder, run the following, without the <em>$</em> in front</p>
 <pre><code>$ conda activate cellVision
 $ python main.py
 </code></pre>
-<p>CellVision should run and segment all images within the director you specified!</p>
+<p>CellVision should run and segment all images within the directory you specified!</p>
 <h2 id="advanced-users">Advanced Users</h2>
 <p>By design, the actual application is self contained, so the directory can be moved and run from anywhere on your machine!  This means that all the code is immediately modifiable for advanced users.</p>
 <h4 id="code-outline">Code Outline</h4>
-<p><code>main.py</code> - runs</p>
+<p> <code>main.py</code> - connects all steps of CellVision pipeline (input, pre-processing, segmentation, post-processing, and output) in a single program </p>
+<p> <code>src/cvmask.py</code> - wrapper class for masks, contains methods for mask initialization, marker quantification, boundary expansion, and lateral bleed compensation </p>
+<p> <code>src/cvmodel.py</code> - MaskRCNN architecture and functions </p>
+<p> <code>src/cvmodel.py</code> - MaskRCNN model specifications </p>
+<p> <code>src/cvsegmenter.py</code> - contains the logic for cropping and segmentation </p>
+<p> <code>src/cvstitch.py</code> - combines segmented image splits into single segmented image </p>
+<p> <code>src/cvutils.py</code> - util functions </p>
+<p> <code>src/cvvisualize.py</code> - functions for displaying intermediate output during development </p>  
+<p> <code>src/fcswrite.py</code> - function for writing Pandas dataframe to .fcs file </p>   
 </div>
 </body>
 
