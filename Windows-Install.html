@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome file</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="windows-install-tutorial">Windows Install Tutorial</h1>
+<p>CellVision has a one time package install using <code>conda</code>, a package manager bundled into miniconda.  Package install without program install is by design - see section for advanced users below.</p>
+<p>Download CellVision for Windows here, and extract it to anywhere that you like.</p>
+<h3 id="miniconda">Miniconda</h3>
+<ul>
+<li>Install miniconda if you don’t already have Anaconda Navigator, using the .exe file <a href="https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe">here</a>.  This should also install Anaconda Navigator on your system.</li>
+<li>Open Anaconda Navigator.</li>
+</ul>
+<h3 id="adding-conda-forge">Adding Conda-Forge</h3>
+<ul>
+<li>On the <em>Environment</em> tab, click the Channels button to open the Channels Manager.</li>
+<li>Click the Add button.  Type <code>conda-forge</code>, and hit enter
+<ul>
+<li>ADD IMAGE</li>
+</ul>
+</li>
+<li>Hit <em>Update Channels</em></li>
+</ul>
+<h3 id="installing-cellvision-packages">Installing CellVision Packages</h3>
+<ul>
+<li>On the <em>Environment</em> tab, click the <em>Import</em> button on the bottom</li>
+<li>Name the new environment CellVision, and click the folder icon.</li>
+<li>Browse to the folder where you downloaded CellVision.</li>
+<li>Important! - Change the dropdown in the lower right hand side to be <code>Conda explicit specification file.</code>(ADD IMAGE)</li>
+<li>Click on the file <code>requirements.txt</code> and click <em>Open</em>.</li>
+<li>Hit Import - CellVision’s packages should install without errors.  This may take a while!</li>
+</ul>
+<h1 id="running-cellvision-windows">Running CellVision (Windows)</h1>
+<h3 id="config-file">Config File</h3>
+<p>CellVision depends on a <code>cvconfig.py</code> file located in the directory where you downloaded CellVision.  You will change the parameters in this configuration file to tell CellVision where to segment your images.</p>
+<h4 id="important-configuration-settings">Important configuration settings</h4>
+<p>DIRECTORY_PATH - directory that contains your .tif bestFocus images (usually the bestFocus folder)<br>
+CHANNEL_PATH - path to your channels file (usually called channelNames.txt)<br>
+NUCLEAR_CHANNEL_NAME - name of nuclear stain (corresponding to channelNames.txt). Case sensitive.<br>
+OUTPUT_METHOD - (imagej_text_file, statistics, visual_image_output, visual_overlay_output, all)<br>
+BOOST - multiplier with which to boost the pixels of the nuclear stain before inference</p>
+<p>Other settings are documented within the configuration file itself.</p>
+<h4 id="modifying-the-configuration-file">Modifying the configuration file</h4>
+<p>You can modify this file in any text editor of your choice.  We will use Notepad++ for this tutorial.<br>
+(ADD IMAGE)<br>
+Change the parameters above to match the desired image directory, segmentation channel, boost, and output method desired.<br>
+(ADD IMAGE)</p>
+<h3 id="running-cellvision">Running CellVision</h3>
+<p>Now that the parameters have been set, we can easily run CellVision.</p>
+<ul>
+<li>Open Anaconda Navigator.</li>
+<li>On the <em>Environment</em> tab, click the CellVision environment and click the play button.</li>
+<li>Under the dropdown, select open with Jupiter Environment (ADD IMAGE)</li>
+<li>A browser window should open with a filesystem.  Navigate to the CellVision folder that you downloaded.</li>
+<li>Click on <code>windows.ipynb</code>.  A new window will open. (IMAGE)</li>
+<li>Click on the cell that starts <code>from main import main</code>.</li>
+<li>Click the button on the top that says <code>Run</code>.  CellVision should run and segment all images within the director you specified.</li>
+</ul>
+<h2 id="advanced-users">Advanced Users</h2>
+<p>By design, the actual application is self contained, so the directory can be moved and run from anywhere on your machine!  This means that all the code is immediately modifiable for advanced users.</p>
+<h4 id="code-outline">Code Outline</h4>
+<p><code>main.py</code> - runs</p>
+</div>
+</body>
+
+</html>
