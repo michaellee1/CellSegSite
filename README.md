@@ -1,1 +1,1 @@
-https://michaellee1.github.io/CellVisionSite/index.html
+https://michaellee1.github.io/CellSegSite/index.html
