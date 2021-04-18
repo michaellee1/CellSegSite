@@ -41,9 +41,109 @@
 
 <p>CellSeg is now set up, and we’re ready for our first run.</p>
 
-<h2 id="CellSeg_open_jupyter">Part 1: How to organize your images before segmentation </h2>
+<h2 id="CellSeg_image_org">Part 2: How to organize your images before segmentation </h2>
 
-Tutorial under construction...
+<p> For CellSeg to work properly, it requires the following folder structure for your images: </p>
+<ul>
+	<li> 1. The images to segment are all in the same folder </li>
+	<li> 2. This folder is contained in a parent folder </li>
+	<li> 3. In the parent folder is a txt file containing the names of the image channels, one per line </li>
+</ul>
+
+<p> An example of this structure is shown here: </p>
+
+<img src="./img/setup_tutorial_picture10.png">
+
+<p> Currently, CellSeg requires all images to have the same pixel dimensions in a given segmentation run. If you want to segment images of varying sizes, we recommend creating a folder for each image size, then having CellSeg segment the images in each folder one at a time (this folder structure is shown below). </p>
+
+<img src="./img/setup_tutorial_picture11.png">
+
+<p>CellSeg requires a txt file that contains names for each of the slices of your image (see below image). These names are usually the names of protein markers corresponding to each fluorescence channel and cycle. For RGB images, these channels are Red, Green, Blue (see below image). The txt file should be stored in the parent folder. Write down the absolute folder path to the parent folder. We’ll need it later. </p>
+
+<h2 id="CellSeg_cvconfigedit">Part 3: How to change parameters for segmentation in the cvconfig.py file </h2>
+
+<p> Starting from the jupyter notebook window for CellSeg described in part 1, click on cvconfig.py to open the parameter configuration file for CellSeg. Your window should look like this:</p>
+
+<img src="./img/setup_tutorial_picture12.png">
+
+<p> To change values in the cvconfig.py file, delete the text to the right of the equals sign and replace it with your own text. The parameters are divided into core and advanced parameters. The core parameters are necessary for basic segmentation runs. For more customizability, users can also modify the advanced parameters. Please pay careful attention to the cases and punctuation when editing parameters as small typos will prevent CellSeg from working properly. Proper formatting for each parameter, along parameter details, are described on the cvconfig.py page at the top and in this following section. </p>
+
+<h3> File input and output parameters </h3>
+<p> These parameters point CellSeg to where your image data is located on your computer and allow you to specify the output of the CellSeg program. </p>
+
+
+
+<p> <code> target</code>: (string) this is the file path to the directory containing your image folder and channels txt file. </p>
+
+<p> Example on MacOS: <code> target = “/Users/MyMac/Downloads/Images_To_segm” </code> </p>
+
+<p> Example on Windows: <code> target = “C:/Downloads/ImageData” </code></p>
+
+
+
+<p> <code> output_path_name</code>: this is the name of directory to save output in, contained in double quotes. If directory does not exist, CellSeg creates directory. (default value is "output") </p>
+
+<p> Example on MacOS: <code> output_path_name = “/Users/Jacob Mac/Downloads/exp12_output” </code> </p>
+
+<p> Example on MacOS: <code> output_path_name = “output” </code> this will create an output folder in the CellSeg program folder and save the data there</p>
+
+<p> Example on Windows: <code> output_path_name = “C:/image_segmentations/exp12_output” </code></p>
+
+
+
+<p> <code> image_folder_name</code>: (string) this is the name of the folder directly containing your images, contained in double quotes (default is "bestFocus") </p>
+
+<p> Example 1: <code> target = “bestFocus” </code> </p>
+
+<p> Example 2: <code> target = “my_images” </code></p>
+
+<p> Example of invalid input: <code> target = bestFocus </code></p>
+
+
+
+<p> <code> image_channels_name </code>: (string) name of the .txt file containing the name of your image channels (default is "channelNames.txt"). </p>
+
+<p> Example: <code> target = “channelNames.txt” </code> </p>
+
+<p> Example of invalid input: <code> target = “channelNames” </code> (needs to include the .txt extension) </p>
+
+
+
+<p> <code> FILENAME_ENDS_TO_EXCLUDE </code>: (string tuple) The suffixes of files in <code>image_folder_name</code> to exclude from segmentation. Format is each suffix contained in double quotes, separated by a comma, all contained within parentheses (see examples) (default is (montage.tif)). </p>
+
+<p> Example 1: <code> FILENAME_ENDS_TO_EXCLUDE = ("montage.tif") </code> excludes only files ending in "montage.tif" </p>
+
+<p> Example 2: <code> FILENAME_ENDS_TO_EXCLUDE = () </code> excludes no image files </p>
+
+<p> Example 3: <code> FILENAME_ENDS_TO_EXCLUDE = ("montage.tif", "merged.tif", ".png") </code> excludes images ending in "montage.tif", "merged.tif", and all ".png" images </p>
+
+<p> Example of invalid input:  <code> FILENAME_ENDS_TO_EXCLUDE = </code> to exclude no file names, see Example 2.  </p>
+
+
+
+<p> <code> IS_CODEX_OUTPUT </code>: (True/False) CODEX output files have special filenames that allow outputs to contain more metadata about absolute positions, regs, and other things. Set this parameter to <code>False</code> if not using the CODEX filename convention, otherwise set it to <code>True</code>. </p>
+
+<p> Example: <code> IS_CODEX_OUTPUT = True </code> </p>
+
+
+
+<p> <code> OUTPUT_METHOD </code>: The desired format of the data output. Must be one of “imagej_text_file”, “statistics”, “visual_image_output”, “visual_overlay_output”, “all”. “all” will generate all four outputs for each segmented image. Output details: </p>
+
+<ul>
+	<li> <code>"imagej_text_file"</code>- not currently implemented </li>
+	<li> <code>"statistics"</code>- this option outputs a csv file and fcs file each containing information for each identified cell including marker quantification, the (x,y) coordinate of the cell, and the size of the cell. </li>
+	<li> <code>"visual_image_output"</code>- this option outputs a png image of the tissue with the cell boundaries overlaid on top. </li>
+	<li> <code>"visual_overlay_output"</code>- this option outputs a tif image containing the cell boundaries as ROI regions which can be opened in programs such as ImageJ and used to do computations. </li>
+	<li> <code>"all"</code>- this option outputs all four previous options for each segmented image. </li>
+</ul>
+
+<p> Example 1: <code> OUTPUT_METHOD = "all" </code> </p>
+
+<p> Example 2: <code> OUTPUT_METHOD = "statistics" </code> </p>
+
+
+
+<p>Tutorial under construction...</p>
 
 Written by Jacob Bedia. Last edited on 4/18/21.
 
