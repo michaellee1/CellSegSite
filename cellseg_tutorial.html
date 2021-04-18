@@ -4,89 +4,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome file</title>
+  <title>Running CellSeg</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="setting-up-cellseg">Setting Up CellSeg</h1>
-<p>This is a tutorial on how to set up CellSeg. This tutorial will cover: </p>
+<p>This is a tutorial on how to set up and run CellSeg. This tutorial will cover: </p>
 
 <ul>
-	<li> How to navigate to the CellSeg folder in terminal </li>
-	<li> How to set up a CellSeg conda environment </li>
-	<li> How to open the CellSeg program in terminal </li>
+	<li> How to open the CellSeg program in terminal/Anaconda prompt </li>
+	<li> How to organize your images before segmentation </li>
+	<li> How to change parameters for segmentation in the cvconfig.py file </li>
+	<li> Details of parameters for CellSeg </li>
+	<li> How to run CellSeg to segment your data </li>
 </ul>
 
-<p>This tutorial assumes you have already downloaded CellSeg and miniconda following the instructions <a href="https://https://michaellee1.github.io/CellVisionSite/install.html">here</a>. This tutorial assumes no programming experience with Python or terminal. It will provide a step-by-step guide on how to get CellSeg up and running using conda. One of the advantages of CellSeg is it leverages the power of the Python programming language for deep learning while minimizing actual user programming. Advanced Python users can skip this tutorial, noting the dependencies for CellSeg are contained in the requirements.txt file in the CellSeg main folder.</p>
+<p>This tutorial assumes you have completed the CellSeg installation tutorial <a href="https://https://michaellee1.github.io/CellVisionSite/install.html">here</a>. This tutorial assumes no programming experience with Python or terminal. </p>
 
-<li>If you're running CellSeg on Windows, make sure to install Microsoft Visual C++ Build Tools <a href="https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2017">here</a>. If you're running CellSeg on MacOS, make sure you have XCode installed and have opened it at least once prior to running CellSeg. </li>
 
-<h2 id="CellSeg_navigation">Part 1: How to navigate to the CellSeg folder </h2>
 
-<p>The pictures for this tutorial are done in Windows on an Anaconda terminal, but the commands to type are identical on Mac and Linux terminal. Write down the absolute path to the CellSeg folder you previously downloaded. For example, the path to the CellSeg folder on my computer is: “E:\JACOB\CellSegSegmenter”. </p>
+<h2 id="CellSeg_open_jupyter">Part 1: Opening the CellSeg program in Jupyter Notebook </h2>
 
-<p>First, we open the Anaconda terminal (on Mac/Linux, open terminal):</p>
+<p>First, we’re going to open the CellSeg program. Jupyter Notebook is a software that runs from an internet browser and provides a user-friendly way to view, edit, and run Python programs. First, in Anaconda prompt (Windows) or terminal (MacOS or Linux), navigate to the folder containing the CellSeg software as described in part 2 of the installation tutorial <a href="https://https://michaellee1.github.io/CellVisionSite/install.html">here</a>, then activate your conda environment you had created for CellSeg in part 3 of the installation tutorial <a href="https://https://michaellee1.github.io/CellVisionSite/install.html">here</a> by typing: </p>
 
-<img src="./img/setup_tutorial_picture1.png">
+<p><code> conda activate env_name</code></p>
 
-<p>Notice that we are currently in the <code>C:</code> drive of the computer, but the path to the CellSeg folder is in the <code>E:</code> drive. To change drives on Windows, we type the letter preceding the directory path followed by a colon and hit enter. In our case, we type <code>E:</code>.</p>
+<p>where you replace <code> env_name </code> with the name of your conda environment for CellSeg. To open CellSeg in Jupyter Notebook, next type: </p>
 
-<p>On Mac, change drives by first typing cd /Volumes then typing <code>cd “drivename”</code> where you replace drivename with the name of your drive in double quotes.</p>
-
-<img src="./img/setup_tutorial_picture2.png">
-
-<p>Now, we’re going to use that path to the CellSeg folder you wrote down earlier. We’ll navigate to the folder in one command by typing cd “filepath” where you replace filepath with the path to your CellSeg folder in double quotes. For example, I’m going to type </p>
-
-<li><code>cd "E:\JACOB\CellSegSegmenter"</code></li>
-
-<p>and press Enter. </p>
-
-<img src="./img/setup_tutorial_picture3.png">
-
-<p>Now we are ready to set up CellSeg. </p>
-
-<h2 id="CellSeg_conda_env">Part 2: How to set up a CellSeg conda environment </h2>
-
-<p>The CellSeg program requires several Python packages to run. A naïve approach would be to download all these packages one by one from the internet, but this requires downloading about 40 packages separately, and it leads to extra computer clutter, computer slowdowns, and unnecessary work to organize the packages. A solution that Python programmers have developed is the conda environment. Conda environments allow you to download and install all the necessary packages for a Python program like CellSeg with a single command in terminal, and the Conda environment automatically stores and organizes all packages efficiently.
-</p>
-
-<p>We will walk through how to create a conda environment for CellSeg. First, we need to check that conda is installed properly on our machine. We do this by typing <code>conda info</code> and hitting Enter. If your output doesn’t look like this, or you get an error, then reinstall conda before continuing.</p>
-
-<img src="./img/setup_tutorial_picture4.png">
-
-<p>Now we’ll create the conda environment that CellSeg will run in. The name of our new environment will be cellsegsegmenter and we’ll create this by typing </p>
-
-<li><code>conda create --name cellsegsegmenter python=3.6</code></li>
-
-<img src="./img/setup_tutorial_picture5.png">
-
-<p>Eventually, you will reach a prompt that says <code>Proceed ([y]/n)?</code>. Hit enter to continue.</p>
-
-<img src="./img/setup_tutorial_picture6.png">
-
-<p>Once you see an output similar to the image below, the environment has been created.</p>
-
-<img src="./img/setup_tutorial_picture7.png">
-
-<p>To use a conda environment, you need to activate it by typing <code>conda activate env_name</code> where you replace <code>env_name</code> with your environment name. In my case, I type <code>conda activate cellsegsegmenter</code>.</p>
-
-<img src="./img/setup_tutorial_picture8.png">
-
-<p>Notice now that the name of our environment appears in parentheses to the left of the directory path. That means we are now in the active conda environment. Next, we need to install the packages that CellSeg depends on. First, type the following and hit enter</p>
-
-<p><code>conda config --add channels conda-forge</code></p>
-
-<p>Next, type the following and hit enter</p>
-
-<p><code>conda install --file requirements.txt</code></p>
-
-<p>When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. You should be able to watch as all the packages required for CellSeg are installed.
-</p>
-
-<h2 id="CellSeg_open_jupyter">Part 3: Opening the CellSeg program in Jupyter Notebook </h2>
-
-<p>Finally, we’re going to open the CellSeg program. Jupyter Notebook is a software that provides a convenient way to view and run Python programs. To open CellSeg in Jupyter Notebook, type <code>jupyter notebook</code> and hit enter. </p>
+<p><code>jupyter notebook</code> and hit enter. </p>
 
 
 <p>Jupyter notebook should open automatically in your default browser. If it doesn’t open, copy the first URL underneath the line “Or copy and paste one of these URLs:” and paste it into your browser of choice. When Jupyter notebook opens in your browser, you should see this:</p>
@@ -95,7 +41,11 @@
 
 <p>CellSeg is now set up, and we’re ready for our first run.</p>
 
-Written by Jacob Bedia. Last edited on 6/26/20.
+<h2 id="CellSeg_open_jupyter">Part 1: How to organize your images before segmentation </h2>
+
+Tutorial under construction...
+
+Written by Jacob Bedia. Last edited on 4/18/21.
 
 
 
