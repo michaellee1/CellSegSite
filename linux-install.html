@@ -1,78 +1,94 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome file</title>
+  <title>Install CellSeg</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="linux-install-tutorial">Linux Install Tutorial</h1>
-<p>CellVision has a one time package install using <code>conda</code>, a package manager bundled into miniconda.  Package install without program install is by design - see section for advanced users below.</p>
-<p>
-  Download CellVision for Linux <a href="https://github.com/michaellee1/CellVisionSegmenter/archive/master.zip">here</a>, 
-  and extract into any directory of your choosing.  This tutorial does assume a very basic grasp of the terminal. For an 
-  introduction to using miniconda, please refer to the Anaconda documentation <a href="https://conda.io/projects/conda/en/latest/user-guide/index.html"> here</a>.
-</p>
+<p>This is a tutorial on how to download and set up the software required for CellSeg. This tutorial will cover: </p>
+
+<ul>
+	<li> How to download CellSeg and other required softwares </li>
+	<li> How to open terminal and navigate to the CellSeg folder </li>
+	<li> How to set up the python (conda) environment that CellSeg will run in </li>
+</ul>
+
+<p> This tutorial assumes no programming experience with Python or terminal. It will provide a step-by-step guide on how to get CellSeg up and running using conda. One of the advantages of CellSeg is it leverages the power of the Python programming language for deep learning while minimizing user programming. Advanced Python users can skip part 2 of this tutorial. </p>
+
+	<h2 id="CellSeg_software_download">Part 1: Downloading software for CellSeg </h2>
+<p>To use CellSeg, first install the CellSeg for Linux <a href="https://github.com/michaellee1/CellVisionSegmenter/archive/master.zip">here</a> (clicking will download from CellSeg GitHub). Then extract the CellSeg folder to any location. Next, download the weights used for the CellSeg Mask R-CNN network <a href="https://drive.google.com/file/d/1RgfejHUj2W8WbD7_zhi5t3MXTYvTdlnh/view?usp=sharing">here</a>. These weights require about 250 MB of disk space. Within the CellSeg folder you just extracted, move these weights into the folder CellSeg-master/src/modelFiles. </p>
+
 <h3 id="miniconda">Miniconda</h3>
-<ul>
-<li>Install miniconda if you don’t already have it, using the .sh file <a href="https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe">here</a>.</li>
-<li>Make sure you can run <code>conda</code> from the command line without any issues.</li>
-</ul>
-<h3 id="installing-cellvision-environment">Installing CellVision Environment</h3>
-<ul>
-<li>Open a terminal of choice and navigate to the directory where you extracted CellVision.</li>
-<li>Run the following commands in the terminal, without the <em>$</em> in front</li>
-</ul>
-<pre><code>$ conda create -y --name cellVision python==3.7
-$ conda install -f -y -q --name cellVision -c conda-forge --file requirements.txt
-</code></pre>
-<p>Note that the install may take a while!</p>
-<h1 id="running-cellvision-linux">Running CellVision (Linux)</h1>
-<h3 id="config-file">Config File</h3>
-<p>
-  CellVision depends on a <code>cvconfig.py</code> file located in the directory where you downloaded CellVision.  
-  The parameters in this configuration file specify all the information CellVision needs to segment your images including 
-  filepath to your images, desired output path, and other customizations. For 
-  beginner users, this is the only file you need to edit to run CellVision!
+<p> CellSeg requires a one-time package installation using conda, a Python package manager program contained in miniconda. If you don’t already have miniconda, install miniconda <a href="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh">here</a> (clicking will download from conda repo). Miniconda requires approximately 60 MB of space. </p>
+
+
+<h2 id="CellSeg_navigation">Part 2: How to navigate to the CellSeg folder in terminal </h2>
+
+<p>The pictures for this tutorial are done in Mac terminal. The commands are identical for Linux terminal. Write down the absolute path to the CellSeg folder you previously downloaded. For example, the path to the CellSeg folder on my computer is: “/Users/jacobbedia/Downloads/CellSeg-master”. </p>
+
+<p>First, we open the terminal:</p>
+
+<img src="./img/setup_tutorial_picture1.png">
+
+<p>Now, we’re going to use that path to the CellSeg folder you wrote down earlier. We’ll navigate to the folder in one command by typing cd “filepath” where you replace filepath with the path to your CellSeg folder in double quotes. For example, I’m going to type </p>
+
+<li><code>cd "/Users/jacobbedia/Downloads/CellSeg-master"</code></li>
+
+<p>and press Enter. </p>
+
+<img src="./img/setup_tutorial_picture3.png">
+
+<p>Now we are ready to set up CellSeg. </p>
+
+<h2 id="CellSeg_conda_env">Part 3: How to set up a CellSeg conda environment </h2>
+
+<p>The CellSeg program requires several Python packages to run. A naïve approach would be to download all these packages one by one from the internet, but this requires downloading about 40 packages separately, and it leads to extra computer clutter, computer slowdowns, and unnecessary work to organize the packages. A solution that Python programmers have developed is the conda environment. Conda environments allow you to download and install all the necessary packages for a Python program like CellSeg with a single command in terminal, and the Conda environment automatically stores and organizes all packages efficiently.
 </p>
-<h4 id="important-configuration-settings">Important configuration settings</h4>
-<p>
-  DIRECTORY_PATH - directory that contains your '.tif', '.jpg', or '.png' images (for CODEX images, this is usually the bestFocus folder)<br>
-  CHANNEL_PATH - path to your channels file (for CODEX images, this is called channelNames.txt)<br>
-  NUCLEAR_CHANNEL_NAME - name of nuclear stain channel (corresponding to channelNames.txt). Case sensitive.<br>
-  OUTPUT_METHOD - choice of data output from segmenter (imagej_text_file, statistics, visual_image_output, visual_overlay_output, all)<br>
-  BOOST - multiplier with which to boost the pixels of the nuclear stain before segmentation
-</p>
-<p>Other settings are documented within the configuration file itself.</p>
-<h4 id="modifying-the-configuration-file">Modifying the configuration file</h4>
-<p>
-  You can modify this file in any text editor of your choice.  We will use VSCode for this tutorial.<br>
-  TUTORIAL COMING SOON! <br>
-  Change the parameters above to match the desired image directory, segmentation channel, boost, and output method desired.<br>
-  TUTORIAL COMING SOON! 
-</p>
-<h3 id="running-cellvision">Running CellVision</h3>
-<p>Now that the config file has been set, we can easily run CellVision.<br>
-From the CellVision folder, run the following, without the <em>$</em> in front</p>
-<pre><code>$ conda activate cellVision
-$ python main.py
-</code></pre>
-<p>CellVision should run and segment all images within the directory you specified!</p>
-<h2 id="advanced-users">Advanced Users</h2>
-<p>By design, the actual application is self contained, so the directory can be moved and run from anywhere on your machine!  This means that all the code is immediately modifiable for advanced users.</p>
-<h4 id="code-outline">Code Outline</h4>
-<p> <code>main.py</code> - connects all steps of CellVision pipeline (input, pre-processing, segmentation, post-processing, and output) in a single program </p>
-<p> <code>src/cvmask.py</code> - wrapper class for masks, contains methods for mask initialization, marker quantification, boundary expansion, and lateral bleed compensation </p>
-<p> <code>src/cvmodel.py</code> - MaskRCNN architecture and functions </p>
-<p> <code>src/cvmodel.py</code> - MaskRCNN model specifications </p>
-<p> <code>src/cvsegmenter.py</code> - contains the logic for cropping and segmentation </p>
-<p> <code>src/cvstitch.py</code> - combines segmented image splits into single segmented image </p>
-<p> <code>src/cvutils.py</code> - util functions </p>
-<p> <code>src/cvvisualize.py</code> - functions for displaying intermediate output during development </p>  
-<p> <code>src/fcswrite.py</code> - function for writing Pandas dataframe to .fcs file </p>   
+
+<p>We will walk through how to create a conda environment for CellSeg. First, we need to check that conda is installed properly on our machine. We do this by typing <code>conda info</code> and hitting Enter. If your output doesn’t look like this, or you get an error, then reinstall conda before continuing.</p>
+
+<img src="./img/setup_tutorial_picture4.png">
+
+<p>Now we’ll create the conda environment that CellSeg will run in. The name of our new environment will be cellsegsegmenter and we’ll create this by typing </p>
+
+<li><code>conda create --name cellsegsegmenter python=3.6</code></li>
+
+<img src="./img/setup_tutorial_picture5.png">
+
+<p>Eventually, you will reach a prompt that says <code>Proceed ([y]/n)?</code>. Hit enter to continue.</p>
+
+<img src="./img/setup_tutorial_picture6.png">
+
+<p>Once you see an output similar to the image below, the environment has been created.</p>
+
+<img src="./img/setup_tutorial_picture7.png">
+
+<p>To use a conda environment, you need to activate it by typing <code>conda activate env_name</code> where you replace <code>env_name</code> with your environment name. In my case, I type <code>conda activate cellsegsegmenter</code>.</p>
+
+<img src="./img/setup_tutorial_picture8.png">
+
+<p>Notice now that the name of our environment appears in parentheses to the left of the directory path. That means we are now in the active conda environment. Next, we need to install the packages that CellSeg depends on. First, type the following and hit enter</p>
+
+<p><code>conda config --add channels conda-forge</code></p>
+
+<p>Next, type the following and hit enter. This will install the <code> cytoolz</code> package for CellSeg. </p>
+
+<p><code>conda install cytoolz==0.10.0</code></p>
+
+<p> When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. </p>
+
+<p> Finally, type the following to install the rest of the packages for CellSeg on Windows. </p>
+
+<p><code>pip install -r requirements.txt </code></p>
+
+<p> When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. You should be able to watch as all the packages required for CellSeg are installed. </p>
+
+
 </div>
 </body>
 
