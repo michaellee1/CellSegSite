@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install CellSeg</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="mac-install-tutorial">MacOS Install Tutorial</h1>
+<p>This is a tutorial on how to download and set up the software required for CellSeg. This tutorial will cover: </p>
+
+<ul>
+	<li> How to download CellSeg and other required softwares </li>
+	<li> How to open terminal and navigate to the CellSeg folder </li>
+	<li> How to set up the python (conda) environment that CellSeg will run in </li>
+</ul>
+
+<p> This tutorial assumes no programming experience with Python or terminal. It will provide a step-by-step guide on how to get CellSeg up and running using conda. One of the advantages of CellSeg is it leverages the power of the Python programming language for deep learning while minimizing user programming. Advanced Python users can skip part 2 of this tutorial. </p>
+
+	<h2 id="CellSeg_software_download">Part 1: Downloading software for CellSeg </h2>
+<p>To use CellSeg, first install the CellSeg for MacOS <a href="https://github.com/michaellee1/CellVisionSegmenter/archive/master.zip">here</a> (clicking will download from CellSeg GitHub). Then extract the CellSeg folder to any location. Next, download the weights used for the CellSeg Mask R-CNN network <a href="https://drive.google.com/file/d/1RgfejHUj2W8WbD7_zhi5t3MXTYvTdlnh/view?usp=sharing">here</a>. These weights require about 250 MB of disk space. Within the CellSeg folder you just extracted, move these weights into the folder CellSeg-master/src/modelFiles. </p>
+
+<h3 id="miniconda">Miniconda</h3>
+<p> CellSeg requires a one-time package installation using conda, a Python package manager program contained in miniconda. If you don’t already have miniconda, install miniconda <a href="https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.pkg">here</a> (clicking will download from conda repo). Miniconda requires approximately 60 MB of space. </p>
+
+
+<h2 id="CellSeg_navigation">Part 2: How to navigate to the CellSeg folder in terminal </h2>
+
+<p>The pictures for this tutorial are done in Mac terminal. The commands are identical for Linux terminal. Write down the absolute path to the CellSeg folder you previously downloaded. For example, the path to the CellSeg folder on my computer is: “/Users/jacobbedia/Downloads/CellSeg-master”. </p>
+
+<p>First, we open the terminal:</p>
+
+<img src="./img/setup_tutorial_picture1_mac.png">
+
+<p>Now, we’re going to use that path to the CellSeg folder you wrote down earlier. We’ll navigate to the folder in one command by typing cd “filepath” where you replace filepath with the path to your CellSeg folder in double quotes. For example, I’m going to type </p>
+
+<li><code>cd "/Users/jacobbedia/Downloads/CellSeg-master"</code></li>
+
+<p>and press Enter. </p>
+
+<img src="./img/setup_tutorial_picture2_mac.png">
+
+<p>Now we are ready to set up CellSeg. </p>
+
+<h2 id="CellSeg_conda_env">Part 3: How to set up a CellSeg conda environment </h2>
+
+<p>The CellSeg program requires several Python packages to run. A naïve approach would be to download all these packages one by one from the internet, but this requires downloading about 40 packages separately, and it leads to extra computer clutter, computer slowdowns, and unnecessary work to organize the packages. A solution that Python programmers have developed is the conda environment. Conda environments allow you to download and install all the necessary packages for a Python program like CellSeg with a single command in terminal, and the Conda environment automatically stores and organizes all packages efficiently.
+</p>
+
+<p>We will walk through how to create a conda environment for CellSeg. First, we need to check that conda is installed properly on our machine. We do this by typing <code>conda info</code> and hitting Enter. If your output doesn’t look like this, or you get an error, then reinstall conda before continuing.</p>
+
+<img src="./img/setup_tutorial_picture3_mac.png">
+
+<p>Now we’ll create the conda environment that CellSeg will run in. The name of our new environment will be cellsegsegmenter and we’ll create this by typing </p>
+
+<li><code>conda create --name cellsegsegmenter python==3.6</code></li>
+
+<img src="./img/setup_tutorial_picture4_mac.png">
+
+<p>Eventually, you will reach a prompt that says <code>Proceed ([y]/n)?</code>. Hit enter to continue.</p>
+
+<img src="./img/setup_tutorial_picture5_mac.png">
+
+<p>Once you see an output similar to the image below, the environment has been created.</p>
+
+<img src="./img/setup_tutorial_picture6_mac.png">
+
+<p>To use a conda environment, you need to activate it by typing <code>conda activate env_name</code> where you replace <code>env_name</code> with your environment name. In my case, I type <code>conda activate cellsegsegmenter</code>.</p>
+
+<img src="./img/setup_tutorial_picture7_mac.png">
+
+<p>Notice now that the name of our environment appears in parentheses to the left of the directory path. That means we are now in the active conda environment. Next, we need to install the packages that CellSeg depends on. First, type the following and hit enter</p>
+
+<p><code>conda config --add channels conda-forge</code></p>
+
+<p> Finally, type the following to install the rest of the packages for CellSeg. </p>
+
+<p><code>pip install -r requirements.txt </code></p>
+
+<p> When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. You should be able to watch as all the packages required for CellSeg are installed. </p>
+
+<img src="./img/setup_tutorial_picture8_mac.png">
+
+</div>
+</body>
+
+</html>
