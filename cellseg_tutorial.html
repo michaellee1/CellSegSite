@@ -60,6 +60,13 @@
 
 <p>CellSeg requires a txt file that contains names for each of the slices of your image (see below image). These names are usually the names of protein markers corresponding to each fluorescence channel and cycle. For RGB images, these channels are Red, Green, Blue (see below image). The txt file should be stored in the parent folder. Write down the absolute folder path to the parent folder. We’ll need it later. </p>
 
+<p> Below is the expected channelNames.txt file format for RGB images. </p>
+<img src="./img/setup_tutorial_picture13.png">
+
+<p> Below is the expected channelNames.txt file format for a 4D tiff image with 2 stacks. </p>
+
+<img src="./img/setup_tutorial_picture14.png">
+
 <h2 id="CellSeg_cvconfigedit">Part 3: How to change parameters for segmentation in the cvconfig.py file </h2>
 
 <p> Starting from the jupyter notebook window for CellSeg described in part 1, click on cvconfig.py to open the parameter configuration file for CellSeg. Your window should look like this:</p>
@@ -68,11 +75,14 @@
 
 <p> To change values in the cvconfig.py file, delete the text to the right of the equals sign and replace it with your own text. The parameters are divided into core and advanced parameters. The core parameters are necessary for basic segmentation runs. For more customizability, users can also modify the advanced parameters. Please pay careful attention to the cases and punctuation when editing parameters as small typos will prevent CellSeg from working properly. Proper formatting for each parameter, along parameter details, are described on the cvconfig.py page at the top and in this following section. </p>
 
+
+<h2 id="CellSeg_paramdetails">Part 4: Details of parameters for CellSeg </h2>
+
 <h3> File input and output parameters </h3>
 <p> These parameters point CellSeg to where your image data is located on your computer and allow you to specify the output of the CellSeg program. </p>
 
 
-
+<h4> target </h4>
 <p> <code> target</code>: (string) this is the file path to the directory containing your image folder and channels txt file. </p>
 
 <p> Example on MacOS: <code> target = “/Users/MyMac/Downloads/Images_To_segm” </code> </p>
@@ -80,7 +90,7 @@
 <p> Example on Windows: <code> target = “C:/Downloads/ImageData” </code></p>
 
 
-
+<h4> output_path_name </h4>
 <p> <code> output_path_name</code>: this is the name of directory to save output in, contained in double quotes. If directory does not exist, CellSeg creates directory. (default value is "output") </p>
 
 <p> Example on MacOS: <code> output_path_name = “/Users/Jacob Mac/Downloads/exp12_output” </code> </p>
@@ -90,7 +100,7 @@
 <p> Example on Windows: <code> output_path_name = “C:/image_segmentations/exp12_output” </code></p>
 
 
-
+<h4> image_folder_name </h4>
 <p> <code> image_folder_name</code>: (string) this is the name of the folder directly containing your images, contained in double quotes (default is "bestFocus") </p>
 
 <p> Example 1: <code> target = “bestFocus” </code> </p>
@@ -100,7 +110,7 @@
 <p> Example of invalid input: <code> target = bestFocus </code></p>
 
 
-
+<h4> image_channels_name </h4>
 <p> <code> image_channels_name </code>: (string) name of the .txt file containing the name of your image channels (default is "channelNames.txt"). </p>
 
 <p> Example: <code> target = “channelNames.txt” </code> </p>
@@ -108,7 +118,7 @@
 <p> Example of invalid input: <code> target = “channelNames” </code> (needs to include the .txt extension) </p>
 
 
-
+<h4> FILENAME_ENDS_TO_EXCLUDE </h4>
 <p> <code> FILENAME_ENDS_TO_EXCLUDE </code>: (string tuple) The suffixes of files in <code>image_folder_name</code> to exclude from segmentation. Format is each suffix contained in double quotes, separated by a comma, all contained within parentheses (see examples) (default is (montage.tif)). </p>
 
 <p> Example 1: <code> FILENAME_ENDS_TO_EXCLUDE = ("montage.tif") </code> excludes only files ending in "montage.tif" </p>
@@ -120,13 +130,13 @@
 <p> Example of invalid input:  <code> FILENAME_ENDS_TO_EXCLUDE = </code> to exclude no file names, see Example 2.  </p>
 
 
-
+<h4> IS_CODEX_OUTPUT </h4>
 <p> <code> IS_CODEX_OUTPUT </code>: (True/False) CODEX output files have special filenames that allow outputs to contain more metadata about absolute positions, regs, and other things. Set this parameter to <code>False</code> if not using the CODEX filename convention, otherwise set it to <code>True</code>. </p>
 
 <p> Example: <code> IS_CODEX_OUTPUT = True </code> </p>
 
 
-
+<h4> OUTPUT_METHOD </h4>
 <p> <code> OUTPUT_METHOD </code>: The desired format of the data output. Must be one of “imagej_text_file”, “statistics”, “visual_image_output”, “visual_overlay_output”, “all”. “all” will generate all four outputs for each segmented image. Output details: </p>
 
 <ul>
@@ -141,11 +151,80 @@
 
 <p> Example 2: <code> OUTPUT_METHOD = "statistics" </code> </p>
 
+<h3> Segmentation parameters </h3>
+<p> These parameters control the segmentation and output of CellSeg </p>
 
+<h4> NUCLEAR_CHANNEL_NAME </h4>
+<p> <code> NUCLEAR_CHANNEL_NAME </code>: (string) name of the channel to segment in your channelNames.txt file, enclosed in double quotes.  Case sensitive. If your image is RGB, enter "none" for this parameter. </p>
+
+<p> Example: <code> NUCLEAR_CHANNEL_NAME = "DNA1" </code> this will extract the image slice named DNA1 and use it to segment the images </p>
+
+<p> Example (for RGB images): <code> NUCLEAR_CHANNEL_NAME = "none" </code> this will extract the image slice named DNA1 and use it to segment the images </p>
+
+<h4> BOOST </h4>
+
+<p> <code> BOOST </code>: Multiplier to increase the brightness of the nuclear signal in each image. Boosting the image makes the nuclear stain brighter. Especially in tissue images with weak nuclear stain, this can improve the quality of segmentation drastically. The boost value can be a DOUBLE, where the number is the desired percent boost or it can be set to “auto” where the correct amount to boost is computed from a reference image (see AUTOBOOST_REFERENCE_IMAGE). We generally select a representative image from the tissue by visual inspection and set BOOST to auto. Set this parameter to 0.0 to turn off boosting. </p>
+
+<p> Example: <code> BOOST = 0.5 </code></p>
+
+<p> Example: <code> BOOST = "auto" </code> will automatically select boost brightness based on a representative image. </p>
+
+<h4> AUTOBOOST_REFERENCE_IMAGE </h4>
+
+<p> <code> AUTOBOOST_REFERENCE_IMAGE </code>: Name of image in the images folder that you wish to use as a reference for boosting. Enter "none" to default to the first reference image. </p>
+
+<p> Examples: <code>AUTOBOOST_REFERENCE_IMAGE = “reg001_X01_Y01_Z04.tif”</code></p>
+
+<h4> GROWTH_PIXELS </h4>
+
+<p> <code> GROWTH_PIXELS </code>: (integer) number of pixels to expand from the nucleus to define a cell boundary. CellSeg identifies individual nuclei in an image and encloses each nucleus in a mask. However, marker quantification on only the nuclear region of a cell will exclude signal from cell membrane markers. We solve this by expanding each cell boundary by GROWTH_PIXELS pixels in each direction. If growing the boundaries between two segmented cells leads to an overlap in the segmented regions, then CellSeg assigns each pixel in the overlap region to the cell with the closest centroid. For no expansion, set GROWTH_PIXELS to 0. </p>
+
+<p> Considerations: growing the cell boundaries by too many pixels risks erroneously capturing signal from adjacent cells. It is important to select GROWTH_PIXELS depending on the confluence (density) of cells in your image, the size of nuclei relative to the size of cells, and the desired markers to quantify. For highly confluent tissues, we recommend growth of 1 or 2 pixels maximum. This is based on visual inspection of biaxial plots, where growth of 3 or more pixels leads to more erroneous or unexpected double positive expression such as many CD19/CD3 double positive cells. For less confluent tissues, the GROWTH_PIXELS can be selected based on the size of the nuclei relative to the size of the cell. If you’re only quantifying nuclear markers, no growth is necessary and GROWTH_PIXELS can be set to 0. </p>
+
+<p> Example 1: <code> GROWTH_PIXELS = 2 </code> grows nuclear boundaries by 2 pixels. </p>
+
+<p> Example 2: <code> GROWTH_PIXELS = 0 </code> no growth performed. </p>
+
+<p> Example of invalid input: <code> GROWTH_PIXELS = 2.0 </code> only accepts integer inputs, not decimals </p>
+
+<h4> USE_SEQUENTIAL_GROWTH </h4>
+<p> <code> USE_SEQUENTIAL_GROWTH </code>: (True/False) parameter to use sequential growth rather than standard growth algorithm. The method for removing ovelap between overlapping segmented cells after standard growth (described in GROWTH_PIXELS) biases pixel assignment in the overlap region towards smaller cells, since the center of a small cell is on average closer to the overlap region than that of the large cell. Sequential growth instead iterates over the segmented cells, growing the boundary of each cell by 1 pixel until that cell's boundary collides with another cell's boundary, at which point growth stops. This process continues until all cells' boundaries have been grown by GROWTH_PIXELS pixels or the cells' boundaries have all collided. </p>
+
+<p> Example 1: <code> USE_SEQUENTIAL_GROWTH = True </code></p>
+<p> Example 2: <code> USE_SEQUENTIAL_GROWTH = False </code></p>
+
+<h4> SHOULD_COMPENSATE </h4>
+<p> <code> SHOULD_COMPENSATE </code>: (True/False) Setting this value to <code>True</code> performs lateral bleed compensation (Goltsev et al Cell 2018) after single cell marker quantification. Especially in images of densely packed cells, the fluorescence signal from a cell will bleed into the neighboring cells. Lateral bleed compensation uses an inverse matrix solver algorithm to assign signal to the correct cell and remove contaminating signals from other cells. We recommend using lateral bleed compensation when segmented fluorescent images of tissues with densely packed cells. </p>
+
+<p> Example 1: <code> SHOULD_COMPENSATE = True </code></p>
+<p> Example 2: <code> SHOULD_COMPENSATE = False </code></p>
+
+
+<h3> Advanced parameters </h3>
+
+<h4> OVERLAP </h4>
+<p> <code> OVERLAP </code>: (integer) To speed up segmentation, CellSeg crops a given image into smaller subimages. This parameter gives the amount of pixel overlap between the crops that CellSeg generates. A higher number leads to more overlap between crops. We recommend 80 pixels, to ensure that cells falling along the boundary of the crop are captured in both crops and not cut in half for segmentation. </p>
+
+<h4> THRESHOLD </h4>
+<p> <code> THRESHOLD </code>: (integer) This is the minimum size (in pixels) of segmented objects that CellSeg will keep. This allows erroneously segmented small tissue artifacts to be removed from the set of segmented cells. </p>
+
+<h4> INCREASE_FACTOR </h4>
+<p> <code> INCREASE_FACTOR </code>: (double) Amount by which to zoom in on images during model training. </p>
+
+<h4> AUTOBOOST_PERCENTILE </h4>
+<p> <code> AUTOBOOST_PERCENTILE </code>: (double) If using autoboosting, CellSeg computes the factor to boost the image brightness using the intensity of the <code> AUTOBOOST_PERCENTILE </code> pixel in the boost reference image. </p>
+
+<h2 id="CellSeg_firstrun">Part 5: How to run CellSeg to segment your data </h2>
+
+<p> Now that you've edited the core parameters with the relevant information for your data in the <code> cvconfig.py </code> file as described in the previous section, you're ready to segment your data. To segment, be sure to save the <code> cvconfig.py </code> file with your edits and close that window. Next, open the <code> windows.ipynb </code> file in the main Jupyter window. Your window should look like this </p>
+
+<img src="./img/setup_tutorial_picture15.png">
+
+<p> Go to the Cell tab and click "Run all". CellSeg will start to segment your images and output the results in your specified output folder. </p>
 
 <p>Tutorial under construction...</p>
 
-Written by Jacob Bedia. Last edited on 4/18/21.
+Written by Jacob Bedia. Last edited on 4/19/21.
 
 
 
