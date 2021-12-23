@@ -90,8 +90,11 @@
 
 <p><code>pip install -r requirements.txt </code></p>
 
-<p> When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. You should be able to watch as all the packages required for CellSeg are installed. </p>
+<p> When prompted by <code>Proceed ([y]/n)?</code>, hit enter to continue. You should be able to watch as all the packages required for CellSeg are installed. This completes the CellSeg installation tutorial. </p>
 
+<h2> id="GPU installation" OPTIONAL: GPU accelerating CellSeg </h2>
+
+<p> GPU acceleration with CellSeg requires CUDA 10.0, CUDNN 7.6.5, and a CUDA compatible GPU. From the base CellSeg environment, first uninstall tensorflow. Next, install tensorflow-gpu==1.13.1 using pip. Confirm your keras version is 2.1.3. Finally, downgrade h5py to 2.10.0 using pip. </p>
 
 </div>
 </body>
